@@ -1,0 +1,5 @@
+# docker-compose.preview.yml
+services:
+  oj-backend:
+    ports:
+      - "${OJ_PORT}:8000"

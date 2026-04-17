@@ -1,17 +1,64 @@
+# .github/workflows/deploy.yml
 name: Deploy OJ
 
 on:
   push:
     branches: [main]
+  pull_request:
+    types: [opened, synchronize, reopened, closed]
 
 jobs:
   deploy:
+    if: github.event.action != 'closed'
     runs-on: self-hosted
     steps:
       - uses: actions/checkout@v4
 
+      - name: Set env
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            SLUG=$(echo "${{ github.head_ref }}" | sed 's/[^a-zA-Z0-9]/-/g')
+            PORT=$((8090 + ${{ github.event.number }}))
+          else
+            SLUG=main
+            PORT=8090
+          fi
+          echo "SLUG=$SLUG" >> $GITHUB_ENV
+          echo "PORT=$PORT" >> $GITHUB_ENV
+
       - name: Deploy
         working-directory: /Users/yang/oj
         run: |
-          git pull origin main
-          docker compose up -d --build
+          git fetch origin
+          if [ "${{ env.SLUG }}" = "main" ]; then
+            git checkout main
+            git pull origin main
+            docker compose -p oj-main up -d --build
+          else
+            git checkout ${{ github.head_ref }}
+            git pull origin ${{ github.head_ref }}
+            OJ_PORT=${{ env.PORT }} docker compose -p oj-${{ env.SLUG }} \
+              -f docker-compose.yml -f docker-compose.preview.yml \
+              up -d --build
+          fi
+
+      - name: Comment preview URL
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: `🚀 Preview: http://macmini:${{ env.PORT }}`
+            })
+
+  teardown:
+    if: github.event.action == 'closed'
+    runs-on: self-hosted
+    steps:
+      - name: Remove preview
+        run: |
+          SLUG=$(echo "${{ github.head_ref }}" | sed 's/[^a-zA-Z0-9]/-/g')
+          docker compose -p oj-$SLUG down -v
