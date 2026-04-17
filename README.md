@@ -1,10 +1,10 @@
-简体中文 | [English](https://github.com/QingdaoU/OnlineJudgeDeploy/blob/2.0/README.en.md)
+한국어 | [English](./README.en.md)
 
-## 环境准备
+## 환경 준비
 
-### Linux 环境
+### Linux 환경
 
-1. 安装必要的依赖
+1. 필요한 의존성을 설치합니다.
 
     ```bash
     sudo apt-get update && sudo apt-get install -y vim python3-pip curl git
@@ -12,56 +12,54 @@
     pip install docker-compose
     ```
 
-2. 安装 Docker 
+2. Docker를 설치합니다.
 
-    国内用户使用脚本一键安装: `sudo curl -sSL https://get.daocloud.io/docker | sh`  
-    国外用户使用脚本一键安装: `sudo curl -sSL get.docker.com | sh`
-    
-    详细步骤参照： [https://docs.docker.com/install/](https://docs.docker.com/install/)
+    스크립트로 설치: `sudo curl -sSL https://get.docker.com | sh`
 
-### Windows 环境
+    자세한 설치 절차는 [https://docs.docker.com/install/](https://docs.docker.com/install/) 를 참고하세요.
 
+### Windows 환경
 
-Windows 下的安装仅供体验，勿在生产环境使用。如有必要，请使用虚拟机安装 Linux 并将 OJ 安装在其中。
+Windows 환경의 설치는 체험 용도로만 권장되며, 운영 환경에서는 사용하지 마세요. 필요하다면 가상 머신에 Linux를 설치한 뒤 그 안에 OJ를 설치하세요.
 
-以下教程仅适用于 Win10 x64 下的 `PowerShell`
+아래 안내는 `Windows 10 x64`의 `PowerShell` 기준입니다.
 
-1. 安装 Windows 的 Docker 工具
-2. 右击右下角 Docker 图标，选择 Settings 进行设置
-3. 选择 `Shared Drives` 菜单，之后勾选你想安装 OJ 的盘符位置（例如勾选D盘），点击 `Apply`
-4. 输入 Windows 的账号密码进行文件共享
-5. 安装 `Python`、`pip`、`git`、`docker-compose`，安装方法自行搜索。
+1. Windows용 Docker 도구를 설치합니다.
+2. 작업 표시줄 오른쪽 아래의 Docker 아이콘을 우클릭한 뒤 `Settings`를 엽니다.
+3. `Shared Drives` 메뉴에서 OJ를 설치할 드라이브를 선택하고 `Apply`를 클릭합니다.
+4. Windows 계정 비밀번호를 입력해 파일 공유를 완료합니다.
+5. `Python`, `pip`, `git`, `docker-compose`를 설치합니다.
 
-## 开始安装
+## 설치 시작
 
-1. 请选择磁盘空间富余的位置，运行下面的命令
+1. 디스크 여유 공간이 있는 위치를 선택한 뒤 아래 명령을 실행합니다.
 
     ```bash
     git clone -b 2.0 https://github.com/QingdaoU/OnlineJudgeDeploy.git && cd OnlineJudgeDeploy
     ```
 
-2. 启动服务
+2. 서비스를 시작합니다.
 
     ```bash
     docker-compose up -d
     ```
 
-根据网速情况，大约5到30分钟就可以自动搭建完成，全程无需人工干预。
+네트워크 속도에 따라 약 5분에서 30분 정도면 별도 개입 없이 설치가 완료됩니다.
 
-等命令执行完成，然后运行 `docker ps -a`，当看到所有的容器的状态没有 `unhealthy` 或 `Exited (x) xxx` 就代表 OJ 已经启动成功。
+명령 실행이 끝난 뒤 `docker ps -a`를 실행했을 때 모든 컨테이너 상태에 `unhealthy` 또는 `Exited (x) xxx`가 없다면 OJ가 정상적으로 시작된 것입니다.
 
-## 尽情享用吧
+## 사용 시작
 
-通过浏览器访问服务器的 HTTP 80 端口或者 HTTPS 443 端口，就可以开始使用了。后台管理路径为`/admin`, 安装过程中自动添加的超级管理员用户名为 `root`，密码为 `rootroot`， **请务必及时修改密码**。
+브라우저에서 서버의 HTTP `80` 포트 또는 HTTPS `443` 포트로 접속하면 사용할 수 있습니다. 관리자 페이지 경로는 `/admin`이며, 설치 과정에서 자동 생성되는 슈퍼 관리자 계정은 사용자명 `root`, 비밀번호 `rootroot`입니다. **로그인 후 반드시 즉시 비밀번호를 변경하세요.**
 
-不要忘记阅读文档 http://opensource.qduoj.com/
+문서도 함께 확인하세요: http://opensource.qduoj.com/
 
-## 定制
+## 커스터마이징
 
-2.0 版将一些常用设置放到了后台管理中，您可以直接登录管理后台对系统进行配置，而无需进行代码改动。
+2.0 버전에서는 자주 사용하는 일부 설정을 관리자 페이지에서 직접 변경할 수 있으므로, 코드 수정 없이도 시스템 설정이 가능합니다.
 
-若需要对系统进行修改或二次开发，请参照各模块的**README**，修改完成后需自行构建Docker镜像并修改`docker-compose.yml`
+시스템 수정이나 2차 개발이 필요하다면 각 모듈의 `README`를 참고하세요. 수정 후에는 직접 Docker 이미지를 빌드하고 `docker-compose.yml`도 함께 조정해야 합니다.
 
-## 遇到了问题？
+## 문제가 있나요?
 
-请参照: [http://opensource.qduoj.com/](http://opensource.qduoj.com/#/onlinejudge/faq) ，如有其他问题请入群讨论或提issue。
+[http://opensource.qduoj.com/](http://opensource.qduoj.com/#/onlinejudge/faq) 를 참고하세요. 그 외 문제는 커뮤니티에서 논의하거나 이슈를 등록하면 됩니다.

@@ -1,4 +1,4 @@
-[简体中文](https://github.com/QingdaoU/OnlineJudgeDeploy/blob/2.0/README.md) | English
+[한국어](./README.md) | English
 
 ## Environmental preparation (Linux)
 
