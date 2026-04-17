@@ -1,7 +1,6 @@
 services:
   oj-redis:
     image: redis:4.0-alpine
-    container_name: oj-redis
     restart: always
     volumes:
       - ./data/redis:/data
@@ -12,7 +11,6 @@ services:
 
   oj-postgres:
     image: postgres:10-alpine
-    container_name: oj-postgres
     restart: always
     volumes:
       - ./data/postgres:/var/lib/postgresql/data
@@ -27,7 +25,6 @@ services:
 
   oj-judge:
     image: registry.cn-hongkong.aliyuncs.com/oj-image/judge:1.6.1
-    container_name: oj-judge
     restart: always
     read_only: true
     cap_drop:
@@ -56,7 +53,6 @@ services:
 
   oj-backend:
     image: registry.cn-hongkong.aliyuncs.com/oj-image/backend:1.6.1
-    container_name: oj-backend
     restart: always
     depends_on:
       - oj-redis
