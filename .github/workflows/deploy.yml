@@ -41,7 +41,7 @@ jobs:
               state: 'success',
               target_url: 'https://oj-${{ env.SLUG }}.mangagaki.net',
               description: 'Deployment live',
-              context: '🚀 Preview'
+              context: 'Preview'
             })
 
   teardown:
