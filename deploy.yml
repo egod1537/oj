@@ -1,0 +1,17 @@
+name: Deploy OJ
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Deploy
+        working-directory: /Users/yang/oj
+        run: |
+          git pull origin main
+          docker compose up -d --build
