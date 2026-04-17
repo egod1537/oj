@@ -4,6 +4,9 @@ on:
   push:
   delete:
 
+permissions:
+  statuses: write
+
 jobs:
   deploy:
     if: github.event_name == 'push'
