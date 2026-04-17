@@ -1,4 +1,3 @@
-# .github/workflows/deploy.yml
 name: Deploy OJ
 
 on:
@@ -18,29 +17,22 @@ jobs:
         run: |
           if [ "${{ github.event_name }}" = "pull_request" ]; then
             SLUG=$(echo "${{ github.head_ref }}" | sed 's/[^a-zA-Z0-9]/-/g')
-            PORT=$((8090 + ${{ github.event.number }}))
           else
             SLUG=main
-            PORT=8090
           fi
           echo "SLUG=$SLUG" >> $GITHUB_ENV
-          echo "PORT=$PORT" >> $GITHUB_ENV
 
       - name: Deploy
         working-directory: /Users/yang/oj
         run: |
           git fetch origin
           if [ "${{ env.SLUG }}" = "main" ]; then
-            git checkout main
-            git pull origin main
-            docker compose -p oj-main up -d --build
+            git checkout main && git pull origin main
           else
             git checkout ${{ github.head_ref }}
             git pull origin ${{ github.head_ref }}
-            OJ_PORT=${{ env.PORT }} docker compose -p oj-${{ env.SLUG }} \
-              -f docker-compose.yml -f docker-compose.preview.yml \
-              up -d --build
           fi
+          SLUG=${{ env.SLUG }} docker compose -p oj-${{ env.SLUG }} up -d --build
 
       - name: Comment preview URL
         if: github.event_name == 'pull_request'
@@ -51,7 +43,7 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: context.issue.number,
-              body: `🚀 Preview: http://macmini:${{ env.PORT }}`
+              body: `🚀 Preview: https://oj-${{ env.SLUG }}.mangagaki.net`
             })
 
   teardown:

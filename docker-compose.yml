@@ -65,10 +65,19 @@ services:
       - POSTGRES_USER=onlinejudge
       - POSTGRES_PASSWORD=onlinejudge
       - JUDGE_SERVER_TOKEN=CHANGE_THIS
-    ports:
-      - "8090:8000"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.oj-${SLUG:-main}.rule=Host(`oj-${SLUG:-main}.mangagaki.net`) || Host(`oj.mangagaki.net`)"
+      - "traefik.http.services.oj-${SLUG:-main}.loadbalancer.server.port=8000"
+    networks:
+      - default
+      - traefik-net
     deploy:
       resources:
         limits:
           cpus: "1.0"
           memory: 512M
+
+networks:
+  traefik-net:
+    external: true

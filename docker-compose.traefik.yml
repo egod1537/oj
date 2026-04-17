@@ -1,0 +1,19 @@
+services:
+  traefik:
+    image: traefik:v3.0
+    container_name: oj-traefik
+    restart: always
+    command:
+      - --providers.docker=true
+      - --providers.docker.exposedbydefault=false
+      - --entrypoints.web.address=:80
+    ports:
+      - "8880:80"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - traefik-net
+
+networks:
+  traefik-net:
+    external: true
