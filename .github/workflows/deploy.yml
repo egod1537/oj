@@ -10,7 +10,7 @@ jobs:
     runs-on: self-hosted
     environment:
       name: ${{ github.ref_name }}
-      url: ${{ github.ref_name == 'main' && 'https://oj.mangagaki.net' || format('https://oj-{0}.mangagaki.net', github.ref_name) }}
+      url: https://oj-${{ github.ref_name }}.mangagaki.net
     steps:
       - uses: actions/checkout@v4
 
